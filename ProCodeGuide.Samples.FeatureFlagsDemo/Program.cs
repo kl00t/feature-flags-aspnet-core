@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 using ProCodeGuide.Samples.FeatureFlagsDemo.Handlers;
 using ProCodeGuide.Samples.FeatureFlagsDemo.Interfaces;
 using ProCodeGuide.Samples.FeatureFlagsDemoMVC.Data;
@@ -16,7 +17,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddFeatureManagement()
-                .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler());
+                .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler())
+                .AddFeatureFilter<PercentageFilter>()
+                .AddFeatureFilter<TimeWindowFilter>();
 
 var app = builder.Build();
 
